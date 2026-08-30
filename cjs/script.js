@@ -1,4 +1,4 @@
-window.addEventListener('load', () => {
+window.addEventListener('DOMContentLoaded', () => {
     const particlesContainer = document.getElementById('particles');
     for (let i = 0; i < 50; i++) {
         const particle = document.createElement('div');
@@ -9,18 +9,32 @@ window.addEventListener('load', () => {
         particlesContainer.appendChild(particle);
     }
 
-    const loadingTyped = new Typed('#loading-typed', {
-        strings: ['she11'],
-        typeSpeed: 150,
-        showCursor: false,
-        onComplete: () => {
-            document.querySelector('.loading-cursor').style.animation = 'none';
-            setTimeout(() => {
-                document.getElementById('loading').classList.add('hidden');
-                startMainAnimations();
-            }, 1000);
+    setTimeout(() => {
+        if (typeof Typed !== 'undefined') {
+            const loadingTyped = new Typed('#loading-typed', {
+                strings: ['she11'],
+                typeSpeed: 150,
+                showCursor: false,
+                onComplete: () => {
+                    const cursor = document.querySelector('.loading-cursor');
+                    if (cursor) {
+                        cursor.style.animation = 'none';
+                        cursor.style.opacity = '0';
+                    }
+                    setTimeout(() => {
+                        const loading = document.getElementById('loading');
+                        if (loading) {
+                            loading.classList.add('hidden');
+                        }
+                        startMainAnimations();
+                    }, 1000);
+                }
+            });
+        } else {
+            document.getElementById('loading').classList.add('hidden');
+            startMainAnimations();
         }
-    });
+    }, 500);
 
     function startMainAnimations() {
         anime({
@@ -39,27 +53,29 @@ window.addEventListener('load', () => {
             delay: 300
         });
 
-        new Typed('#typed-name', {
-            strings: ['she11', 'lunarshe11', 'wittylunar', 'witt', 'witty', '4witty'],
-            typeSpeed: 100,
-            backSpeed: 50,
-            backDelay: 1500,
-            loop: true,
-            showCursor: false
-        });
+        if (typeof Typed !== 'undefined') {
+            new Typed('#typed-name', {
+                strings: ['she11', 'lunarshe11', 'wittylunar', 'witt', 'witty', '4witty'],
+                typeSpeed: 100,
+                backSpeed: 50,
+                backDelay: 1500,
+                loop: true,
+                showCursor: false
+            });
 
-        new Typed('#typed-bio', {
-            strings: ['termux user on android<br>learning linux bash python<br>keenetic with entware<br>coding stuff and breaking things<br>always online never sleep'],
-            typeSpeed: 30,
-            showCursor: false,
-            startDelay: 1500,
-            onComplete: () => {
-                document.querySelectorAll('.cursor').forEach(el => {
-                    el.style.animation = 'none';
-                    el.style.opacity = '1';
-                });
-            }
-        });
+            new Typed('#typed-bio', {
+                strings: ['termux user on android<br>learning linux bash python<br>keenetic with entware<br>coding stuff and breaking things<br>always online never sleep'],
+                typeSpeed: 30,
+                showCursor: false,
+                startDelay: 1500,
+                onComplete: () => {
+                    document.querySelectorAll('.cursor').forEach(el => {
+                        el.style.animation = 'none';
+                        el.style.opacity = '1';
+                    });
+                }
+            });
+        }
 
         anime({
             targets: '.links',
