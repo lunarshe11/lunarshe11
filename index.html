@@ -1,38 +1,102 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>she11</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>she11 · 9MAYA</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=DotGothic16&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="cjs/style.css">
 </head>
 <body>
-    <div class="background"></div>
-    <div class="particles" id="particles"></div>
-
-    <div id="loading">
-        <div>
-            <span class="loading-nick" id="loading-typed"></span><span class="loading-cursor">|</span>
-        </div>
-    </div>
-
     <div class="card">
-        <img src="i/pfp.jpg" alt="avatar" class="avatar">
-        <h1 class="username"><span id="typed-name"></span><span class="cursor">|</span></h1>
-        <div class="bio" id="typed-bio"></div>
-        <div class="links">
-            <a href="https://vk.ru/wittylunar" target="_blank" title="VK">
+        <div class="address-bar">
+            <span class="address-domain">https://wittylunar.site</span>
+            <span class="address-path" id="address-path">/info</span>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="info">info</button>
+            <button class="tab-btn" data-tab="accident">accident</button>
+            <button class="tab-btn" data-tab="project">project</button>
+        </div>
+
+        <div class="content">
+            <div class="tab-pane active" id="pane-info">
+                <div class="avatar-container">
+                    <div class="avatar-ring"></div>
+                    <img src="i/pfp.jpg" alt="avatar" class="avatar">
+                </div>
+                <div class="username-container">
+                    <span class="prompt">></span>
+                    <h1 class="username"><span id="typed-name"></span><span class="cursor">_</span></h1>
+                </div>
+                <div class="bio" id="typed-bio"></div>
+            </div>
+            <div class="tab-pane" id="pane-accident">
+                <img src="i/char.jpg" alt="character" class="char-img">
+                <p class="char-caption">c.c из кода гиазиса</p>
+            </div>
+            <div class="tab-pane" id="pane-project">
+                <div class="project-card" data-project="maya">
+                    <div class="project-header">
+                        <span class="project-icon">🎰</span>
+                        <span class="project-name">9MAYA</span>
+                        <span class="project-arrow">▼</span>
+                    </div>
+                    <div class="project-details">
+                        <p>Экспериментальное 3D-казино в стиле киберпанк. Исследуй комнату, играй в слот и краш, зарабатывай Эхо. Создано на three.js и cannon-es.</p>
+                        <a href="game.html" class="project-link">играть →</a>
+                        <a href="https://github.com/lunarshe11/osh" target="_blank" class="project-link">исходный код →</a>
+                    </div>
+                </div>
+                <div class="project-card" data-project="sw">
+                    <div class="project-header">
+                        <span class="project-icon">⚙️</span>
+                        <span class="project-name">Service Worker</span>
+                        <span class="project-arrow">▼</span>
+                    </div>
+                    <div class="project-details">
+                        <p>Service Worker для кеширования всех файлов страницы. Позволяет открывать сайт без интернета. Регистрируется автоматически.</p>
+                        <a href="sw.js" target="_blank" class="project-link">посмотреть sw.js</a>
+                        <a href="https://github.com/lunarshe11/sw" target="_blank" class="project-link">исходный код →</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ссылки теперь показываются только на вкладке info -->
+        <div class="links" id="links-container">
+            <a href="https://vk.com/wittylunar" target="_blank" class="link-btn">
                 <i class="fab fa-vk"></i>
+                <span class="link-label">VK</span>
             </a>
-            <a href="https://github.com/lunarshe11" target="_blank" title="GitHub">
+            <a href="https://github.com/lunarshe11" target="_blank" class="link-btn">
                 <i class="fab fa-github"></i>
+                <span class="link-label">GH</span>
             </a>
+            <a href="https://osmedokgang.site" target="_blank" class="link-btn casino">
+                <span class="casino-num">9</span>
+                <span class="link-label">MAYA</span>
+            </a>
+        </div>
+
+        <div class="card-footer">
+            <div class="card-id" id="card-id">ID: 0x0000</div>
+            <div class="card-status">● ACTIVE</div>
         </div>
     </div>
 
-    <script src="https://unpkg.com/typed.js@3.0.0/dist/typed.umd.js"></script>
+    <script src="https://unpkg.com/typed.js@2.0.16/dist/typed.umd.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
     <script src="cjs/script.js"></script>
+    <script>
+        if ('serviceWorker' in navigator && window.location.hostname !== 'localhost') {
+            navigator.serviceWorker.register('sw.js')
+                .catch(err => console.log('SW registration failed:', err));
+        }
+    </script>
 </body>
 </html>
