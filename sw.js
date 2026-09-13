@@ -1,14 +1,16 @@
-const CACHE_NAME = 'she11-v1';
+const CACHE_NAME = 'she11-v2';
 const urlsToCache = [
     '/',
     'index.html',
     'cjs/style.css',
     'cjs/script.js',
-    'i/pfp.jpg',
-    'i/char.jpg',
+    'media/pfp.jpg',
+    'media/cc.jpg',
+    'media/yuri.jpg',
+    'media/favicon.jpg',
+    'media/bg.mp4',
     'https://unpkg.com/typed.js@2.0.16/dist/typed.umd.js',
-    'https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js',
-    'https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=DotGothic16&display=swap',
+    'https://fonts.googleapis.com/css2?family=Rubik+Mono+One&family=Share+Tech+Mono&family=DotGothic16&display=swap',
     'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css'
 ];
 

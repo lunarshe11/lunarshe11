@@ -2,100 +2,186 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>she11 · 9MAYA</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SHE11 ⁄⁄ SIGNAL_LOST</title>
+    <meta name="description" content="lunarshe11 ⁄ wittylunar — code, noise">
+    <link rel="icon" type="image/jpeg" href="media/favicon.jpg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=DotGothic16&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Rubik+Mono+One&family=Share+Tech+Mono&family=DotGothic16&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="cjs/style.css">
 </head>
 <body>
-    <div class="card">
-        <div class="address-bar">
-            <span class="address-domain">https://wittylunar.site</span>
-            <span class="address-path" id="address-path">/info</span>
-        </div>
 
-        <div class="tabs">
-            <button class="tab-btn active" data-tab="info">info</button>
-            <button class="tab-btn" data-tab="accident">accident</button>
-            <button class="tab-btn" data-tab="project">project</button>
+    <div class="boot" id="boot">
+        <div class="boot-inner">
+            <div class="boot-kicker">// TRANSMISSION</div>
+            <div class="boot-title">SHE11</div>
         </div>
-
-        <div class="content">
-            <div class="tab-pane active" id="pane-info">
-                <div class="avatar-container">
-                    <div class="avatar-ring"></div>
-                    <img src="i/pfp.jpg" alt="avatar" class="avatar">
-                </div>
-                <div class="username-container">
-                    <span class="prompt">></span>
-                    <h1 class="username"><span id="typed-name"></span><span class="cursor">_</span></h1>
-                </div>
-                <div class="bio" id="typed-bio"></div>
-            </div>
-            <div class="tab-pane" id="pane-accident">
-                <img src="i/char.jpg" alt="character" class="char-img">
-                <p class="char-caption">c.c из кода гиазиса</p>
-            </div>
-            <div class="tab-pane" id="pane-project">
-                <div class="project-card" data-project="maya">
-                    <div class="project-header">
-                        <span class="project-icon">🎰</span>
-                        <span class="project-name">9MAYA</span>
-                        <span class="project-arrow">▼</span>
-                    </div>
-                    <div class="project-details">
-                        <p>Экспериментальное 3D-казино в стиле киберпанк. Исследуй комнату, играй в слот и краш, зарабатывай Эхо. Создано на three.js и cannon-es.</p>
-                        <a href="game.html" class="project-link">играть →</a>
-                        <a href="https://github.com/lunarshe11/osh" target="_blank" class="project-link">исходный код →</a>
-                    </div>
-                </div>
-                <div class="project-card" data-project="sw">
-                    <div class="project-header">
-                        <span class="project-icon">⚙️</span>
-                        <span class="project-name">Service Worker</span>
-                        <span class="project-arrow">▼</span>
-                    </div>
-                    <div class="project-details">
-                        <p>Service Worker для кеширования всех файлов страницы. Позволяет открывать сайт без интернета. Регистрируется автоматически.</p>
-                        <a href="sw.js" target="_blank" class="project-link">посмотреть sw.js</a>
-                        <a href="https://github.com/lunarshe11/sw" target="_blank" class="project-link">исходный код →</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Ссылки теперь показываются только на вкладке info -->
-        <div class="links" id="links-container">
-            <a href="https://vk.com/wittylunar" target="_blank" class="link-btn">
-                <i class="fab fa-vk"></i>
-                <span class="link-label">VK</span>
-            </a>
-            <a href="https://github.com/lunarshe11" target="_blank" class="link-btn">
-                <i class="fab fa-github"></i>
-                <span class="link-label">GH</span>
-            </a>
-            <a href="https://osmedokgang.site" target="_blank" class="link-btn casino">
-                <span class="casino-num">9</span>
-                <span class="link-label">MAYA</span>
-            </a>
-        </div>
-
-        <div class="card-footer">
-            <div class="card-id" id="card-id">ID: 0x0000</div>
-            <div class="card-status">● ACTIVE</div>
-        </div>
+        <div class="boot-log" id="bootLog"></div>
+        <div class="boot-progress"><i id="bootBar"></i></div>
     </div>
 
+    <video id="bg-video" autoplay muted loop playsinline preload="auto">
+        <source src="media/bg.mp4" type="video/mp4">
+    </video>
+    <div class="bg-tint"></div>
+    <div class="scanlines"></div>
+    <div class="grain"></div>
+
+    <header class="marquee-bar">
+        <div class="marquee">
+            <span class="marquee-track jp">
+                信号喪失　シェル　コード　ルナ　けいんゆーあい　こーど　のいず　十六歳　
+                信号喪失　シェル　コード　ルナ　けいんゆーあい　こーど　のいず　十六歳　
+            </span>
+        </div>
+    </header>
+
+    <nav class="rail">
+        <div class="rail-logo">S1</div>
+        <button class="rail-btn active" data-sec="home"><span class="rail-num">01</span><span class="rail-lbl">HOME</span></button>
+        <button class="rail-btn" data-sec="about"><span class="rail-num">02</span><span class="rail-lbl">ABOUT</span></button>
+        <button class="rail-btn" data-sec="works"><span class="rail-num">03</span><span class="rail-lbl">WORKS</span></button>
+        <button class="rail-btn" data-sec="links"><span class="rail-num">04</span><span class="rail-lbl">LINKS</span></button>
+        <div class="rail-foot">⁄⁄</div>
+    </nav>
+
+    <main class="stage">
+
+        <section class="sec active" id="sec-home">
+            <div class="home-grid">
+                <div class="home-left">
+                    <div class="kicker">// TRANSMISSION_01</div>
+                    <h1 class="mega glitch easter" id="megaTitle" data-text="シェル">シェル</h1>
+                    <div class="typeline"><span class="prompt">&gt;</span> <span id="typed-name"></span><span class="cursor">▮</span></div>
+                    <div class="bio" id="typed-bio"></div>
+                </div>
+                <div class="home-right">
+                    <div class="avatar-box">
+                        <div class="avatar-frame"></div>
+                        <img src="media/pfp.jpg" alt="avatar" class="avatar-img">
+                        <div class="avatar-tag">pfp.raw</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="sec" id="sec-about">
+            <div class="kicker">// TRANSMISSION_02</div>
+            <h2 class="sec-title">ABOUT</h2>
+            <div class="about-grid">
+                <figure class="polaroid">
+                    <img src="media/cc.jpg" alt="c.c" class="polaroid-img">
+                    <figcaption class="polaroid-cap">c.c — code geass</figcaption>
+                </figure>
+                <div class="about-text">
+                    <p>&gt; 16 лет. пишу код и ломаю вещи.</p>
+                    <p>&gt; lunarshe11 ⁄ wittylunar</p>
+                    <p>&gt; руковожу ИИ — он пишет, я тестирую.</p>
+                    <p class="about-note">— accident⁄⁄</p>
+                </div>
+                <figure class="polaroid polaroid-small">
+                    <img src="media/yuri.jpg" alt="yuri" class="polaroid-img">
+                    <figcaption class="polaroid-cap">yuri — ddlc</figcaption>
+                </figure>
+            </div>
+        </section>
+
+        <section class="sec" id="sec-works">
+            <div class="kicker">// TRANSMISSION_03</div>
+            <h2 class="sec-title">WORKS</h2>
+
+            <article class="work" data-work>
+                <div class="work-row">
+                    <span class="work-idx">[01]</span>
+                    <span class="work-name">KEENUI</span>
+                    <span class="work-meta">KEENETIC ⁄ WEB-PANEL ⁄ JS</span>
+                    <span class="work-badge">NEW</span>
+                    <span class="work-plus">+</span>
+                </div>
+                <div class="work-body">
+                    <p>Альтернативная веб-панель для роутеров Keenetic. 9 вкладок: дашборд, WiFi, сеть, клиенты, компоненты, файлы, RCI-консоль. Ставится на Entware одной командой. Написана ИИ под моим руководством. Лицензия MIT.</p>
+                    <div class="work-links">
+                        <a href="https://github.com/lunarshe11/keenui" target="_blank" class="w-link">github →</a>
+                        <a href="https://github.com/lunarshe11/keenui#readme" target="_blank" class="w-link">readme →</a>
+                    </div>
+                </div>
+            </article>
+
+            <article class="work" data-work>
+                <div class="work-row">
+                    <span class="work-idx">[02]</span>
+                    <span class="work-name">9MAYA</span>
+                    <span class="work-meta">3D-CASINO ⁄ CYBERPUNK</span>
+                    <span class="work-plus">+</span>
+                </div>
+                <div class="work-body">
+                    <p>Экспериментальное 3D-казино в стиле киберпанк. Комната на three.js и cannon-es: слот, краш, Эхо.</p>
+                    <div class="work-links">
+                        <a href="https://osmedokgang.site" target="_blank" class="w-link">играть →</a>
+                        <a href="https://github.com/lunarshe11/osh" target="_blank" class="w-link">github →</a>
+                    </div>
+                </div>
+            </article>
+
+            <article class="work" data-work>
+                <div class="work-row">
+                    <span class="work-idx">[03]</span>
+                    <span class="work-name">SW</span>
+                    <span class="work-meta">OFFLINE ⁄ SERVICE-WORKER</span>
+                    <span class="work-plus">+</span>
+                </div>
+                <div class="work-body">
+                    <p>Service Worker, кеширующий весь сайт — работает без интернета.</p>
+                    <div class="work-links">
+                        <a href="sw.js" target="_blank" class="w-link">sw.js →</a>
+                        <a href="https://github.com/lunarshe11/sw" target="_blank" class="w-link">github →</a>
+                    </div>
+                </div>
+            </article>
+        </section>
+
+        <section class="sec" id="sec-links">
+            <div class="kicker">// TRANSMISSION_04</div>
+            <h2 class="sec-title">LINKS</h2>
+            <div class="links-list">
+                <a href="https://vk.com/wittylunar" target="_blank" class="big-link">
+                    <i class="fab fa-vk"></i>
+                    <span class="big-link-name">VK</span>
+                    <span class="big-link-url">vk.com/wittylunar</span>
+                    <span class="big-link-arrow">↗</span>
+                </a>
+                <a href="https://github.com/lunarshe11" target="_blank" class="big-link">
+                    <i class="fab fa-github"></i>
+                    <span class="big-link-name">GITHUB</span>
+                    <span class="big-link-url">github.com/lunarshe11</span>
+                    <span class="big-link-arrow">↗</span>
+                </a>
+                <a href="https://osmedokgang.site" target="_blank" class="big-link">
+                    <span class="big-link-nine">9</span>
+                    <span class="big-link-name">MAYA</span>
+                    <span class="big-link-url">osmedokgang.site</span>
+                    <span class="big-link-arrow">↗</span>
+                </a>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="hud">
+        <span id="hud-id">ID: 0x0000</span>
+        <span class="hud-mid">⁄⁄ wittylunar.site ⁄⁄</span>
+        <span class="hud-status"><span class="dot"></span>ACTIVE</span>
+        <span id="hud-time">00:00:00</span>
+    </footer>
+
     <script src="https://unpkg.com/typed.js@2.0.16/dist/typed.umd.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
     <script src="cjs/script.js"></script>
     <script>
         if ('serviceWorker' in navigator && window.location.hostname !== 'localhost') {
-            navigator.serviceWorker.register('sw.js')
-                .catch(err => console.log('SW registration failed:', err));
+            navigator.serviceWorker.register('sw.js').catch(err => console.log('SW:', err));
         }
     </script>
 </body>
