@@ -1,175 +1,109 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    const BOOT_VISIBLE = 1000;
-    const BOOT_FADE    = 150;
-    const BOOT_TOTAL   = BOOT_VISIBLE + BOOT_FADE;
+  const clock = document.getElementById('clock');
+  const tick = () => {
+    const d = new Date();
+    clock.textContent = d.toLocaleTimeString('en-GB', { hour:'2-digit', minute:'2-digit' });
+  };
+  tick();
+  setInterval(tick, 1000);
 
-    const bootEl  = document.getElementById('boot');
-    const bootLog = document.getElementById('bootLog');
-    const bootBar = document.getElementById('bootBar');
+  const items = document.querySelectorAll('.rail-item');
+  const views = document.querySelectorAll('.view');
+  const content = document.querySelector('.content');
 
-    const BOOT_LINES = [
-        '> mounting /dev/root',
-        '> kernel modules',
-        '> network stack',
-        '> loading assets',
-        '> transmission ready'
-    ];
+  items.forEach(btn => btn.addEventListener('click', () => {
+    items.forEach(x => x.classList.remove('active'));
+    btn.classList.add('active');
+    views.forEach(v => v.classList.toggle('active', v.id === 'view-' + btn.dataset.view));
+    if (content) content.scrollTop = 0;
 
-    if (bootEl) {
-        BOOT_LINES.forEach((line, i) => {
-            setTimeout(() => {
-                const d = document.createElement('div');
-                d.className = 'line';
-                const isLast = i === BOOT_LINES.length - 1;
-                if (isLast) {
-                    d.textContent = line;
-                } else {
-                    d.innerHTML = line + ' <span class="ok">OK</span>';
-                }
-                bootLog.appendChild(d);
-            }, i * 90);
-        });
+    if (btn.dataset.view === 'activity') loadActivity();
+  }));
 
-        let p = 0;
-        const barIv = setInterval(() => {
-            p += 14;
-            if (p >= 100) { p = 100; clearInterval(barIv); }
-            if (bootBar) bootBar.style.width = p + '%';
-        }, 55);
+  const pfp = document.getElementById('pfp');
+  if (pfp) pfp.addEventListener('error', () => {
+    pfp.style.display = 'none';
+    pfp.parentElement.style.background =
+      'repeating-linear-gradient(45deg,#101118 0 12px,#0a0b0f 12px 24px)';
+  });
 
-        setTimeout(() => {
-            bootEl.classList.add('hidden');
-            setTimeout(() => bootEl.remove(), BOOT_FADE + 50);
-        }, BOOT_VISIBLE);
-    }
+  const shots = document.querySelectorAll('.shot');
+  if (shots.length) {
+    const lb = document.createElement('div');
+    lb.className = 'lightbox';
+    lb.innerHTML = '<img alt="">';
+    document.body.appendChild(lb);
 
-    setTimeout(() => {
-        if (typeof Typed !== 'undefined') {
-            new Typed('#typed-name', {
-                strings: ['she11', 'lunarshe11', 'wittylunar'],
-                typeSpeed: 90,
-                backSpeed: 50,
-                backDelay: 1400,
-                loop: true,
-                showCursor: false
-            });
-
-            new Typed('#typed-bio', {
-                strings: ['> 16 лет, lunarshe11 / wittylunar<br>> пишу код и ломаю вещи'],
-                typeSpeed: 30,
-                showCursor: false,
-                startDelay: 400
-            });
-        }
-    }, BOOT_TOTAL);
-
-    const btns = document.querySelectorAll('.rail-btn');
-    const secs = document.querySelectorAll('.sec');
-    btns.forEach(btn => btn.addEventListener('click', () => {
-        btns.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        secs.forEach(s => s.classList.toggle('active', s.id === 'sec-' + btn.dataset.sec));
-        const stage = document.querySelector('.stage');
-        if (stage) stage.scrollTop = 0;
+    const lbImg = lb.querySelector('img');
+    shots.forEach(s => s.addEventListener('click', () => {
+      lbImg.src = s.querySelector('img').src;
+      lb.classList.add('open');
     }));
-
-    document.querySelectorAll('[data-work]').forEach(w => {
-        const row = w.querySelector('.work-row');
-        if (!row) return;
-        row.addEventListener('click', e => {
-            if (e.target.closest('.w-link')) return;
-            w.classList.toggle('open');
-        });
+    lb.addEventListener('click', () => lb.classList.remove('open'));
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') lb.classList.remove('open');
     });
+  }
 
-    const idEl = document.getElementById('hud-id');
-    if (idEl) {
-        let id = null;
-        try { id = localStorage.getItem('she11_id'); } catch (e) {}
-        if (!id) {
-            id = '0x' + Math.floor(Math.random() * 0xFFFFFFFF)
-                .toString(16).toUpperCase().padStart(8, '0');
-            try { localStorage.setItem('she11_id', id); } catch (e) {}
-        }
-        idEl.textContent = 'ID: ' + id;
+  const USER = 'lunarshe11';
+  const TYPES = {
+    PushEvent:        { cls: 'push',    label: 'push'    },
+    WatchEvent:       { cls: 'star',    label: 'star'    },
+    PullRequestEvent: { cls: 'pr',      label: 'pr'      },
+    IssuesEvent:      { cls: 'issue',   label: 'issue'   },
+    CreateEvent:      { cls: 'create',  label: 'create'  },
+    ReleaseEvent:     { cls: 'release', label: 'release' },
+    ForkEvent:        { cls: 'fork',    label: 'fork'    },
+  };
+  let actLoaded = false;
+
+  async function loadActivity() {
+    if (actLoaded) return;
+    actLoaded = true;
+
+    const list   = document.getElementById('actList');
+    const status = document.getElementById('actStatus');
+
+    try {
+      const res = await fetch(
+        `https://api.github.com/users/${USER}/events/public?per_page=30`,
+        { headers: { 'Accept': 'application/vnd.github+json' } }
+      );
+      if (!res.ok) throw new Error('http ' + res.status);
+      const data = await res.json();
+
+      const allowed = Object.keys(TYPES);
+      const evts = data.filter(e => allowed.includes(e.type)).slice(0, 12);
+
+      if (!evts.length) {
+        list.innerHTML = '<li class="act-empty">&gt; no recent activity</li>';
+        status.textContent = 'empty';
+        return;
+      }
+
+      list.innerHTML = evts.map((e, i) => {
+        const t    = TYPES[e.type];
+        const repo = e.repo.name.split('/')[1] || e.repo.name;
+        const iso  = e.created_at;
+        const date = iso.slice(0, 10);
+        const time = iso.slice(11, 16);
+        const num  = String(i + 1).padStart(2, '0');
+        return `<li class="act-item">
+          <span class="act-num">${num}</span>
+          <div>
+            <span class="act-type ${t.cls}">${t.label}</span>
+            <span class="act-repo">${repo}</span>
+          </div>
+          <span class="act-date">${date} ${time}</span>
+        </li>`;
+      }).join('');
+
+      status.textContent = evts.length + ' events';
+    } catch (err) {
+      list.innerHTML = `<li class="act-empty">&gt; failed: ${err.message}</li>`;
+      status.textContent = 'error';
     }
-
-    const timeEl = document.getElementById('hud-time');
-    if (timeEl) {
-        const tick = () => { timeEl.textContent = new Date().toLocaleTimeString('ru-RU'); };
-        tick();
-        setInterval(tick, 1000);
-    }
-
-    const vid = document.getElementById('bg-video');
-    if (vid) {
-        vid.addEventListener('error', () => { vid.style.display = 'none'; }, true);
-    }
-
-    const mega = document.getElementById('megaTitle');
-    if (mega) {
-        const JP_TEXT   = 'シェル';
-        const FIN_TEXT  = 'SHE11';
-        const HOLD      = 5000;
-        const STAGGER   = 45;
-        const CHAR_DUR  = 420;
-        const BOOT_OFF  = BOOT_TOTAL + 400;
-
-        let current = 'jp';
-        let running = false;
-
-        const waveTransition = (target) => {
-            if (running) return;
-            running = true;
-
-            const targetText = target === 'jp' ? JP_TEXT : FIN_TEXT;
-            const oldText    = current === 'jp' ? JP_TEXT : FIN_TEXT;
-            const oldChars   = [...oldText];
-            const newChars   = [...targetText];
-            const maxLen     = Math.max(oldChars.length, newChars.length);
-
-            let html = '';
-            for (let i = 0; i < maxLen; i++) {
-                const o = oldChars[i] || '';
-                const n = newChars[i] || '';
-                html += `<span class="wave-ch" data-n="${n}" style="--i:${i}">${o}</span>`;
-            }
-            mega.innerHTML = html;
-            mega.classList.add('waving');
-
-            const chars = mega.querySelectorAll('.wave-ch');
-
-            chars.forEach((ch, i) => {
-                const peak = i * STAGGER + CHAR_DUR * 0.42;
-                setTimeout(() => {
-                    ch.textContent = ch.dataset.n;
-                }, peak);
-            });
-
-            const totalMs = (maxLen - 1) * STAGGER + CHAR_DUR + 60;
-            setTimeout(() => {
-                mega.classList.remove('waving');
-                mega.textContent = targetText;
-                mega.setAttribute('data-text', targetText);
-                current = target;
-                running = false;
-            }, totalMs);
-        };
-
-        const loop = () => {
-            const next = current === 'jp' ? 'fin' : 'jp';
-            waveTransition(next);
-            setTimeout(loop, STAGGER * 5 + CHAR_DUR + HOLD);
-        };
-
-        setTimeout(loop, BOOT_OFF);
-
-        mega.addEventListener('click', () => {
-            if (running) return;
-            const next = current === 'jp' ? 'fin' : 'jp';
-            waveTransition(next);
-        });
-    }
+  }
 
 });
