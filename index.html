@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>lunarshe11</title>
 <meta name="description" content="lunarshe11 — code, noise">
-<link rel="icon" type="image/jpeg" href="media/favicon.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -13,123 +12,174 @@
 </head>
 <body>
 
+<div class="c-ball" aria-hidden="true"></div>
+<div class="c-trail" aria-hidden="true"></div>
+
 <div class="shell">
+  <header class="header">
+    <a href="https://github.com/lunarshe11" target="_blank" class="brand">lunarshe11</a>
+    <button class="cmd-trigger" id="cmdTrigger" aria-label="Open command palette">
+      <span>search</span>
+      <kbd>/</kbd>
+    </button>
+  </header>
 
-  <aside class="rail">
-    <div class="rail-logo">l<span>⁄</span>s</div>
+  <nav class="tabs" id="tabs">
+    <button class="tab active" data-tab="home">home</button>
+    <button class="tab" data-tab="projects">projects</button>
+    <button class="tab" data-tab="skills">skills</button>
+    <button class="tab" data-tab="activity">activity</button>
+    <button class="tab" data-tab="notes">notes</button>
+    <button class="tab" data-tab="readme">readme</button>
+    <button class="tab" data-tab="fetch">fetch</button>
+  </nav>
 
-    <nav class="rail-nav">
-      <button class="rail-item active" data-view="fetch">
-        <span class="n">01</span>
-        <span class="l">fetch<i>.sh</i></span>
-      </button>
-      <button class="rail-item" data-view="activity">
-        <span class="n">02</span>
-        <span class="l">activity<i>.sh</i></span>
-      </button>
-    </nav>
+  <main class="stage">
+    <!-- HOME -->
+    <section class="panel active" data-panel="home">
+      <div class="hero-name-wrap" id="heroName">
+        <h1 class="hero-name">lunarshe11</h1>
+        <div class="hero-name-reveal" aria-hidden="true">wittylunar</div>
+      </div>
+      <p class="tagline">aint like them.</p>
+      <div class="hero-links">
+        <a href="https://github.com/lunarshe11" target="_blank" class="mag">github ↗</a>
+        <a href="https://pinterest.com/lunarshe11/" target="_blank" class="mag">pinterest ↗</a>
+        <a href="https://vk.ru/wittylunar" target="_blank" class="mag">vk ↗</a>
+      </div>
+    </section>
 
-    <div class="rail-clock" id="clock">--:--</div>
-  </aside>
+    <!-- PROJECTS -->
+    <section class="panel" data-panel="projects">
+      <ul class="projects">
+        <li class="mag">
+          <span class="proj-num">01</span>
+          <span class="proj-name">dotfiles</span>
+          <span class="proj-stack">lua · hyprland · kitty</span>
+          <a href="https://github.com/lunarshe11/dotfiles" target="_blank" class="proj-arrow">↗</a>
+        </li>
+        <li class="mag">
+          <span class="proj-num">02</span>
+          <span class="proj-name">rpcd</span>
+          <span class="proj-stack">c · openwrt · rpc</span>
+          <a href="https://github.com/lunarshe11/rpcd" target="_blank" class="proj-arrow">↗</a>
+        </li>
+        <li class="mag">
+          <span class="proj-num">03</span>
+          <span class="proj-name">openwrt-ubus-writeup</span>
+          <span class="proj-stack">shell · security · writeup</span>
+          <a href="https://github.com/lunarshe11/openwrt-ubus-writeup" target="_blank" class="proj-arrow">↗</a>
+        </li>
+        <li class="mag">
+          <span class="proj-num">04</span>
+          <span class="proj-name">a</span>
+          <span class="proj-stack">misc · experiments</span>
+          <a href="https://github.com/lunarshe11/a" target="_blank" class="proj-arrow">↗</a>
+        </li>
+      </ul>
+    </section>
 
-  <main class="content">
+    <!-- SKILLS -->
+    <section class="panel" data-panel="skills">
+      <div class="skills">
+        <div class="skill-row"><span class="skill-key">languages</span><div class="skill-list"><span>js</span><span>ts</span><span>python</span><span>lua</span></div></div>
+        <div class="skill-row"><span class="skill-key">tools</span><div class="skill-list"><span>gentoo</span><span>hyprland</span><span>neovim</span><span>git</span><span>fish</span></div></div>
+        <div class="skill-row"><span class="skill-key">learning</span><div class="skill-list"><span>rust</span><span>three.js</span></div></div>
+      </div>
+    </section>
 
-    <section class="view active" id="view-fetch">
-      <header class="view-head">
-        <span class="idx">01 / 02</span>
-        <span class="name">fetch<i>.sh</i></span>
-        <span class="meta">lunarshe11@arch — ~</span>
-      </header>
+    <!-- ACTIVITY -->
+    <section class="panel" data-panel="activity">
+      <ol class="act-list" id="actList"><li class="act-empty">&gt; loading…</li></ol>
+    </section>
 
-      <div class="hero">
-        <figure class="hero-img">
-          <img src="media/pfp.jpg" alt="lunarshe11">
-        </figure>
+    <!-- NOTES -->
+    <section class="panel" data-panel="notes">
+      <div class="notes-view">
+        <div class="notes-header">
+          <span class="notes-title">notes.sh</span>
+          <span class="notes-meta" id="notesMeta"></span>
+        </div>
+        <div class="notes-filters" id="notesFilters"></div>
+        <ol class="notes-list" id="notesList"><li class="notes-empty">&gt; loading…</li></ol>
+      </div>
+    </section>
 
-        <div class="hero-text">
-          <h1>lunarshe11</h1>
-          <p class="tagline">vibecoder, looks real until you check code.</p>
+    <!-- README -->
+    <section class="panel" data-panel="readme">
+      <div class="readme">
+        <div class="readme-header">README.md</div>
+        <div class="readme-body">
+          <h2>lunarshe11</h2>
+          <p class="readme-tagline">aint like them.</p>
+          <p>16 yo</p>
+          <h3>stack</h3>
+          <ul>
+            <li>languages — js, python, lua</li>
+            <li>tools — nts.py, sw.js</li>
+            <li>learning — c</li>
+          </ul>
+          <h3>contact</h3>
+          <ul>
+            <li>github — <a href="https://github.com/lunarshe11" target="_blank">/lunarshe11</a></li>
+            <li>pinterest — <a href="https://pinterest.com/lunarshe11/" target="_blank">/lunarshe11</a></li>
+            <li>vk — <a href="https://vk.ru/wittylunar" target="_blank">/wittylunar</a></li>
+          </ul>
         </div>
       </div>
+    </section>
 
-      <div class="fetch-split">
-        <figure class="pfp">
-          <img src="media/ww.jpg" alt="ww" id="pfp">
-          <span class="pfp-tag">ww.raw</span>
-        </figure>
-
-        <dl class="specs">
-          <div class="spec-row"><dt>user</dt><dd>lunarshe11</dd></div>
-          <div class="spec-row"><dt>hostname</dt><dd>arch</dd></div>
-          <div class="spec-row"><dt>age</dt><dd>16</dd></div>
-          <div class="spec-gap"></div>
-          <div class="spec-row"><dt>distro</dt><dd>arch linux</dd></div>
-          <div class="spec-row"><dt>kernel</dt><dd>7.2.8-zen1-2-zen</dd></div>
-          <div class="spec-gap"></div>
-          <div class="spec-row"><dt>desktop</dt><dd>hyprland</dd></div>
-          <div class="spec-row"><dt>terminal</dt><dd>kitty</dd></div>
-          <div class="spec-row"><dt>shell</dt><dd>fish</dd></div>
-          <div class="spec-gap"></div>
-          <div class="spec-row"><dt>laptop</dt><dd>machcreator one r5</dd></div>
-          <div class="spec-row"><dt>gpu</dt><dd>amd radeon graphics <em>[integrated]</em></dd></div>
-          <div class="spec-row"><dt>cpu</dt><dd>amd ryzen 5 7430u</dd></div>
+    <!-- FETCH -->
+    <section class="panel" data-panel="fetch">
+      <div class="fetch">
+        <pre class="fetch-art">        ▄▄▄▄▄
+      ▄███████▄
+     ██▀     ▀██
+    ██   ▄▄▄   ██
+    ██  █████  ██
+    ██   ▀▀▀   ██
+     ██▄     ▄██
+      ▀███████▀
+        ▀▀▀▀▀</pre>
+        <dl class="fetch-info">
+          <div class="fetch-user">wittylunar@localhost</div>
+          <div class="sep"></div>
+          
+          <div class="row"><span class="k">os</span><span class="v">gentoo linux · kali (dual boot)</span></div>
+          <div class="row"><span class="k">kernel</span><span class="v">6.18.57-gentoo-dist-bin</span></div>
+          
+          <div class="sep"></div>
+          <div class="row"><span class="k">wm</span><span class="v">hyprland 0.56.2 (wayland)</span></div>
+          <div class="row"><span class="k">terminal</span><span class="v">kitty 0.48.2</span></div>
+          <div class="row"><span class="k">shell</span><span class="v">fish 4.6.0</span></div>
+          
+          <div class="sep"></div>
+          <div class="row"><span class="k">cpu</span><span class="v">amd ryzen 5 7430u (12) @ 4.39 ghz</span></div>
+          <div class="row"><span class="k">gpu</span><span class="v">amd barcelo [integrated]</span></div>
+          <div class="row"><span class="k">laptop</span><span class="v">machcreator one r5</span></div>
         </dl>
       </div>
-
-      <div class="shots">
-        <div class="shots-head">
-          <span class="shots-title">screens</span>
-          <span class="shots-meta">2 files · media/</span>
-        </div>
-
-        <div class="shots-grid">
-          <figure class="shot">
-            <img src="media/2026-10-03_17-49-05.png" alt="editor" loading="lazy">
-            <figcaption>
-              <span class="shot-idx">01</span>
-              <span class="shot-name">editor</span>
-              <span class="shot-tag">nvim</span>
-            </figcaption>
-          </figure>
-
-          <figure class="shot">
-            <img src="media/2026-10-03_17-49-16.png" alt="catnap" loading="lazy">
-            <figcaption>
-              <span class="shot-idx">02</span>
-              <span class="shot-name">catnap</span>
-              <span class="shot-tag">fetch</span>
-            </figcaption>
-          </figure>
-        </div>
-      </div>
     </section>
-
-    <section class="view" id="view-activity">
-      <header class="view-head">
-        <span class="idx">02 / 02</span>
-        <span class="name">activity<i>.sh</i></span>
-        <span class="meta" id="actStatus">loading…</span>
-      </header>
-
-      <div class="intro">
-        <h2>recent<br><span class="accent">github</span> signal.</h2>
-        <p>public activity of <b>lunarshe11</b>. data pulled from api.github.com when this tab opens.</p>
-      </div>
-
-      <ol class="act-list" id="actList">
-        <li class="act-empty">&gt; establishing link…</li>
-      </ol>
-    </section>
-
   </main>
 </div>
 
+<div class="notes-boot" id="notesBoot" aria-hidden="true">
+  <div class="notes-boot-title" id="notesBootTitle">notes</div>
+  <div class="notes-boot-log" id="notesBootLog"></div>
+</div>
+
+<div class="lightbox" id="lightbox" aria-hidden="true"><img alt=""></div>
+
+<div class="palette" id="palette" aria-hidden="true">
+  <div class="palette-box" role="dialog" aria-label="Command palette">
+    <input class="palette-input" id="paletteInput" placeholder="type to filter…" autocomplete="off" spellcheck="false">
+    <ul class="palette-list" id="paletteList"></ul>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/split-type@0.3.4/umd/index.min.js"></script>
 <script src="cjs/script.js"></script>
-<script>
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.getRegistrations().then(rs => rs.forEach(r => r.unregister()));
-    if (window.caches) caches.keys().then(ks => ks.forEach(k => caches.delete(k)));
-  }
-</script>
 </body>
 </html>
