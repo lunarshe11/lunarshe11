@@ -14,5 +14,33 @@
   {
     "path": "october/17",
     "date": "2026-10-17"
+  },
+  {
+    "path": "december/31",
+    "date": "9999-12-31"
+  },
+  {
+    "path": "october/19",
+    "date": "2026-10-19"
+  },
+  {
+    "path": "october/10",
+    "date": "2026-10-10"
+  },
+  {
+    "path": "october/11",
+    "date": "2026-10-11"
+  },
+  {
+    "path": "october/12",
+    "date": "2026-10-12"
+  },
+  {
+    "path": "october/08",
+    "date": "2026-10-08"
+  },
+  {
+    "path": "october/21",
+    "date": "2026-10-21"
   }
 ]
