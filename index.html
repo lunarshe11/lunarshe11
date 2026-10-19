@@ -18,6 +18,9 @@
 <div class="shell">
   <header class="header">
     <a href="https://github.com/lunarshe11" target="_blank" class="brand">lunarshe11</a>
+    <div class="commit-widget" id="lastCommitWidget">
+      <span class="dot"></span> loading...
+    </div>
     <button class="cmd-trigger" id="cmdTrigger" aria-label="Open command palette">
       <span>search</span>
       <kbd>/</kbd>
@@ -35,7 +38,6 @@
   </nav>
 
   <main class="stage">
-    <!-- HOME -->
     <section class="panel active" data-panel="home">
       <div class="hero-name-wrap" id="heroName">
         <h1 class="hero-name">lunarshe11</h1>
@@ -49,7 +51,6 @@
       </div>
     </section>
 
-    <!-- PROJECTS -->
     <section class="panel" data-panel="projects">
       <ul class="projects">
         <li class="mag">
@@ -60,40 +61,42 @@
         </li>
         <li class="mag">
           <span class="proj-num">02</span>
-          <span class="proj-name">rpcd</span>
+          <span class="proj-name">rpcd (PR #46)</span>
           <span class="proj-stack">c · openwrt · rpc</span>
           <a href="https://github.com/lunarshe11/rpcd" target="_blank" class="proj-arrow">↗</a>
         </li>
         <li class="mag">
           <span class="proj-num">03</span>
           <span class="proj-name">openwrt-ubus-writeup</span>
-          <span class="proj-stack">shell · security · writeup</span>
+          <span class="proj-stack">shell · security</span>
           <a href="https://github.com/lunarshe11/openwrt-ubus-writeup" target="_blank" class="proj-arrow">↗</a>
         </li>
-        <li class="mag">
+        <li class="mag" style="opacity: 0.7; cursor: default;">
           <span class="proj-num">04</span>
-          <span class="proj-name">a</span>
-          <span class="proj-stack">misc · experiments</span>
-          <a href="https://github.com/lunarshe11/a" target="_blank" class="proj-arrow">↗</a>
+          <span class="proj-name">nts.py</span>
+          <span class="proj-stack">python · textual · private</span>
+          <span class="proj-arrow" style="opacity: 0.3;">🔒</span>
         </li>
       </ul>
     </section>
 
-    <!-- SKILLS -->
     <section class="panel" data-panel="skills">
       <div class="skills">
-        <div class="skill-row"><span class="skill-key">languages</span><div class="skill-list"><span>js</span><span>ts</span><span>python</span><span>lua</span></div></div>
-        <div class="skill-row"><span class="skill-key">tools</span><div class="skill-list"><span>gentoo</span><span>hyprland</span><span>neovim</span><span>git</span><span>fish</span></div></div>
-        <div class="skill-row"><span class="skill-key">learning</span><div class="skill-list"><span>rust</span><span>three.js</span></div></div>
+        <div class="skill-row"><span class="skill-key">languages</span><div class="skill-list"><span>js</span><span>python</span><span>lua</span></div></div>
+        <div class="skill-row"><span class="skill-key">tools</span><div class="skill-list"><span>nts.py</span><span>sw.js</span></div></div>
+        <div class="skill-row"><span class="skill-key">learning</span><div class="skill-list"><span>c</span><span>gentoo</span></div></div>
       </div>
     </section>
 
-    <!-- ACTIVITY -->
     <section class="panel" data-panel="activity">
-      <ol class="act-list" id="actList"><li class="act-empty">&gt; loading…</li></ol>
+      <div class="activity-container">
+        <div class="gh-chart">
+          <img src="https://ghchart.rshah.org/5b3cf0/lunarshe11" alt="GitHub Contributions">
+        </div>
+        <ol class="act-list" id="actList"><li class="act-empty">&gt; loading...</li></ol>
+      </div>
     </section>
 
-    <!-- NOTES -->
     <section class="panel" data-panel="notes">
       <div class="notes-view">
         <div class="notes-header">
@@ -101,11 +104,10 @@
           <span class="notes-meta" id="notesMeta"></span>
         </div>
         <div class="notes-filters" id="notesFilters"></div>
-        <ol class="notes-list" id="notesList"><li class="notes-empty">&gt; loading…</li></ol>
+        <ol class="notes-list" id="notesList"><li class="notes-empty">&gt; loading...</li></ol>
       </div>
     </section>
 
-    <!-- README -->
     <section class="panel" data-panel="readme">
       <div class="readme">
         <div class="readme-header">README.md</div>
@@ -117,7 +119,7 @@
           <ul>
             <li>languages — js, python, lua</li>
             <li>tools — nts.py, sw.js</li>
-            <li>learning — c</li>
+            <li>learning — c, gentoo</li>
           </ul>
           <h3>contact</h3>
           <ul>
@@ -129,7 +131,6 @@
       </div>
     </section>
 
-    <!-- FETCH -->
     <section class="panel" data-panel="fetch">
       <div class="fetch">
         <pre class="fetch-art">        ▄▄▄▄▄
@@ -172,7 +173,7 @@
 
 <div class="palette" id="palette" aria-hidden="true">
   <div class="palette-box" role="dialog" aria-label="Command palette">
-    <input class="palette-input" id="paletteInput" placeholder="type to filter…" autocomplete="off" spellcheck="false">
+    <input class="palette-input" id="paletteInput" placeholder="type to filter..." autocomplete="off" spellcheck="false">
     <ul class="palette-list" id="paletteList"></ul>
   </div>
 </div>

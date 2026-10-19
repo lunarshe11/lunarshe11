@@ -2,13 +2,23 @@ document.addEventListener('DOMContentLoaded', () => {
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const delay = ms => new Promise(r => setTimeout(r, ms));
 
-  // Загрузка заметок из ветки notes на GitHub
   const NOTES_CONFIG = {
     base: 'https://raw.githubusercontent.com/lunarshe11/lunarshe11/notes/notes/',
     indexFile: 'notes.json',
   };
 
-  /* ========== CURSOR ========== */
+  fetch('https://api.github.com/repos/lunarshe11/lunarshe11/commits?per_page=1')
+    .then(res => res.json())
+    .then(data => {
+      if (data && data[0]) {
+        const date = new Date(data[0].commit.author.date).toLocaleDateString();
+        document.getElementById('lastCommitWidget').innerHTML = `<span class="dot"></span> commit: ${date}`;
+      }
+    })
+    .catch(() => {
+      document.getElementById('lastCommitWidget').innerHTML = `<span class="dot" style="background:#ff6b8a;box-shadow:none;"></span> offline`;
+    });
+
   (() => {
     const ball  = document.querySelector('.c-ball');
     const trail = document.querySelector('.c-trail');
@@ -38,7 +48,6 @@ document.addEventListener('DOMContentLoaded', () => {
     })();
   })();
 
-  /* ========== HERO LENS ========== */
   (() => {
     const wrap   = document.getElementById('heroName');
     const reveal = wrap && wrap.querySelector('.hero-name-reveal');
@@ -59,7 +68,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   })();
 
-  /* ========== HERO ENTRANCE ========== */
   if (window.SplitType && window.gsap && !reduced) {
     const split = new SplitType('.hero-name', { types: 'chars' });
     gsap.set(split.chars, { yPercent: 110 });
@@ -67,7 +75,6 @@ document.addEventListener('DOMContentLoaded', () => {
     gsap.from('.tagline, .hero-links', { y: 20, opacity: 0, duration: 0.7, stagger: 0.1, ease: 'power2.out', delay: 0.6 });
   }
 
-  /* ========== MAGNETIC ========== */
   (() => {
     if (!matchMedia('(pointer: fine)').matches || reduced) return;
     document.querySelectorAll('.mag').forEach(el => {
@@ -81,7 +88,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   })();
 
-  /* ========== TABS ========== */
   const tabBtns = document.querySelectorAll('.tab');
   const panels  = document.querySelectorAll('.panel');
   let current   = 'home';
@@ -143,9 +149,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   tabBtns.forEach(btn => btn.addEventListener('click', () => swapTo(btn.dataset.tab)));
 
-  /* ========== NOTES HELPERS ========== */
   const MONTHS = ['jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec'];
-
   function parseIndexEntry(entry) {
     if (typeof entry === 'string') {
       const m = entry.match(/(\d{4}-\d{2}-\d{2})/);
@@ -153,7 +157,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     return { path: entry.path || entry.id || '', date: entry.date || '' };
   }
-
   function buildNoteUrl(path) {
     if (path.endsWith('.json')) return NOTES_CONFIG.base + path;
     return NOTES_CONFIG.base + path + '/context.json';
@@ -170,7 +173,6 @@ document.addEventListener('DOMContentLoaded', () => {
   function escapeHtml(s) {
     return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   }
-
   async function loadNotesWithProgress(index, progressLine) {
     const total = index.length;
     const results = [];
@@ -182,75 +184,45 @@ document.addEventListener('DOMContentLoaded', () => {
         const r = await fetch(buildNoteUrl(path), { cache: 'no-store' });
         if (!r.ok) throw new Error(r.status);
         const note = await r.json();
-        results.push({
-          ...note,
-          date: note.date || date,
-          _path: path,
-          _baseUrl: buildNoteBaseUrl(path),
-        });
-      } catch (e) { /* skip broken */ }
+        results.push({ ...note, date: note.date || date, _path: path, _baseUrl: buildNoteBaseUrl(path) });
+      } catch (e) { }
       progressLine.update(`fetching notes (${i + 1}/${total})`, path);
     }
     results.sort((a, b) => (b.date || '').localeCompare(a.date || ''));
     return results;
   }
-
-  /* ========== NOTES RENDER & MD ========== */
   let cachedNotes = null;
-
   marked.setOptions({ breaks: true, gfm: true });
-
   function buildFilters(notes) {
     const filters = [{ key: 'all', label: 'all' }];
-    const years = new Set();
-    const months = new Set();
+    const years = new Set(); const months = new Set();
     notes.forEach(n => {
       if (!n.date || n.date.length < 7) return;
-      years.add(n.date.slice(0, 4));
-      months.add(n.date.slice(0, 7));
+      years.add(n.date.slice(0, 4)); months.add(n.date.slice(0, 7));
     });
     [...years].sort().reverse().forEach(y => filters.push({ key: 'year:' + y, label: y }));
     [...months].sort().reverse().forEach(ym => filters.push({ key: 'month:' + ym, label: monthLabel(ym) }));
     return filters;
   }
-
   function filterNotes(notes, key) {
     if (key === 'all') return notes;
-    if (key.startsWith('year:')) {
-      const y = key.slice(5);
-      return notes.filter(n => (n.date || '').startsWith(y));
-    }
-    if (key.startsWith('month:')) {
-      const ym = key.slice(6);
-      return notes.filter(n => (n.date || '').startsWith(ym));
-    }
+    if (key.startsWith('year:')) return notes.filter(n => (n.date || '').startsWith(key.slice(5)));
+    if (key.startsWith('month:')) return notes.filter(n => (n.date || '').startsWith(key.slice(6)));
     return notes;
   }
-
   function renderNoteItem(n) {
     let md = n.content || '';
-    
     if (n.images && n.images.length) {
-      n.images.forEach(img => {
-        if (!md.includes(img)) {
-           md += `\n\n![image](${img})`;
-        }
-      });
+      n.images.forEach(img => { if (!md.includes(img)) md += `\n\n![image](${img})`; });
     }
-
-    md = md.replace(/!\[([^\]]*)\]\((?!http)([^)]+)\)/g, (match, alt, path) => {
-      return `![${alt}](${n._baseUrl}${path})`;
-    });
-
+    md = md.replace(/!\[([^\]]*)\]\((?!http)([^)]+)\)/g, (match, alt, path) => `![${alt}](${n._baseUrl}${path})`);
     const htmlContent = marked.parse(md);
-
     return `<li class="note-item">
       <div class="note-date">${escapeHtml(n.date || '')}</div>
       <div class="note-title">${escapeHtml(n.title || 'untitled')}</div>
       <div class="note-content">${htmlContent}</div>
     </li>`;
   }
-
   function wireImageLightbox() {
     document.querySelectorAll('.note-content img').forEach(img => {
       img.addEventListener('click', () => {
@@ -260,37 +232,26 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
   }
-
   function renderNotes(notes) {
-    const list    = document.getElementById('notesList');
-    const meta    = document.getElementById('notesMeta');
+    const list = document.getElementById('notesList');
+    const meta = document.getElementById('notesMeta');
     const filters = document.getElementById('notesFilters');
     if (!list) return;
-
     if (!notes || !notes.length) {
-      meta.textContent = '0 notes';
-      filters.innerHTML = '';
+      meta.textContent = '0 notes'; filters.innerHTML = '';
       list.innerHTML = '<li class="notes-empty">&gt; no notes yet</li>';
       return;
     }
-
     const filterList = buildFilters(notes);
     let activeFilter = 'all';
-
     function apply() {
       const filtered = filterNotes(notes, activeFilter);
       list.innerHTML = filtered.map(renderNoteItem).join('');
       meta.textContent = `${filtered.length} / ${notes.length}`;
       wireImageLightbox();
-      if (window.gsap && !reduced) {
-        gsap.from('.note-item', { opacity: 0, y: 12, duration: 0.35, stagger: 0.04, ease: 'power2.out' });
-      }
+      if (window.gsap && !reduced) gsap.from('.note-item', { opacity: 0, y: 12, duration: 0.35, stagger: 0.04, ease: 'power2.out' });
     }
-
-    filters.innerHTML = filterList.map(f =>
-      `<button class="filter-chip ${f.key === 'all' ? 'active' : ''}" data-key="${f.key}">${f.label}</button>`
-    ).join('');
-
+    filters.innerHTML = filterList.map(f => `<button class="filter-chip ${f.key === 'all' ? 'active' : ''}" data-key="${f.key}">${f.label}</button>`).join('');
     filters.querySelectorAll('.filter-chip').forEach(btn => {
       btn.addEventListener('click', () => {
         activeFilter = btn.dataset.key;
@@ -298,24 +259,18 @@ document.addEventListener('DOMContentLoaded', () => {
         apply();
       });
     });
-
     apply();
   }
 
-  /* ========== NOTES BOOT ========== */
   function makeLogLine(container) {
     const line = document.createElement('div');
     line.className = 'notes-boot-log-line';
     line.innerHTML = `<span class="k"></span><span class="v"></span>`;
     container.appendChild(line);
-    if (window.gsap && !reduced) {
-      gsap.fromTo(line, { opacity: 0, x: -10 }, { opacity: 1, x: 0, duration: 0.3, ease: 'power2.out' });
-    } else {
-      line.style.opacity = 1;
-    }
+    if (window.gsap && !reduced) gsap.fromTo(line, { opacity: 0, x: -10 }, { opacity: 1, x: 0, duration: 0.3, ease: 'power2.out' });
+    else line.style.opacity = 1;
     return line;
   }
-
   function addLogLine(container, key, value, isError) {
     const line = makeLogLine(container);
     line.querySelector('.k').textContent = '> ' + key;
@@ -324,39 +279,28 @@ document.addEventListener('DOMContentLoaded', () => {
     if (isError) v.classList.add('err');
     return Promise.resolve();
   }
-
   function addProgressLine(container, key, value) {
     const line = makeLogLine(container);
-    const k = line.querySelector('.k');
-    const v = line.querySelector('.v');
-    k.textContent = '> ' + key;
-    v.textContent = value;
-    return {
-      update(kk, vv) { k.textContent = '> ' + kk; v.textContent = vv; }
-    };
+    const k = line.querySelector('.k'); const v = line.querySelector('.v');
+    k.textContent = '> ' + key; v.textContent = value;
+    return { update(kk, vv) { k.textContent = '> ' + kk; v.textContent = vv; } };
   }
 
   async function runNotesBoot() {
-    const boot   = document.getElementById('notesBoot');
-    const title  = document.getElementById('notesBootTitle');
-    const log    = document.getElementById('notesBootLog');
-
+    const boot = document.getElementById('notesBoot');
+    const title = document.getElementById('notesBootTitle');
+    const log = document.getElementById('notesBootLog');
     boot.style.display = 'flex';
     log.innerHTML = '';
     title.innerHTML = 'notes';
     title.style.opacity = '1';
     if (window.gsap) gsap.set(title, { clearProps: 'all' });
-
     if (window.gsap && !reduced) {
       gsap.fromTo(title, { opacity: 0, scale: 0.7, y: 40 }, { opacity: 1, scale: 1, y: 0, duration: 0.6, ease: 'power3.out' });
       await delay(600);
-    } else {
-      await delay(200);
-    }
-
+    } else await delay(200);
     title.innerHTML = 'notes<span class="sh">.sh</span>';
     await delay(350);
-
     if (window.gsap && !reduced) gsap.to(title, { y: -100, duration: 0.4, ease: 'power2.out' });
     await delay(350);
 
@@ -400,47 +344,35 @@ document.addEventListener('DOMContentLoaded', () => {
 
     await addLogLine(log, 'index loaded', `${index.length} notes in queue`);
     await delay(300);
-
     const progress = addProgressLine(log, `fetching notes (0/${index.length})`, '');
     await delay(150);
-
     const notes = await loadNotesWithProgress(index, progress);
     await delay(200);
     await addLogLine(log, 'loaded', `${notes.length} note${notes.length === 1 ? '' : 's'}`);
     await delay(250);
     await addLogLine(log, 'loading ui', 'rendering');
     await delay(200);
-
     cachedNotes = notes;
 
     if (window.gsap && !reduced) {
       const rect = title.getBoundingClientRect();
       gsap.to(title, { x: 40 - rect.left, y: 100 - rect.top, scale: 0.15, opacity: 0, duration: 0.7, ease: 'power3.inOut' });
       await delay(700);
-    } else {
-      await delay(200);
-    }
+    } else await delay(200);
 
     boot.style.display = 'none';
     document.querySelector('.panel[data-panel="notes"]').classList.add('active');
     renderNotes(notes);
-
-    if (window.gsap && !reduced) {
-      gsap.from('.notes-view', { opacity: 0, y: 30, duration: 0.5, ease: 'power2.out' });
-    }
+    if (window.gsap && !reduced) gsap.from('.notes-view', { opacity: 0, y: 30, duration: 0.5, ease: 'power2.out' });
   }
 
-  /* ========== LIGHTBOX ========== */
   (() => {
     const lb = document.getElementById('lightbox');
     if (!lb) return;
     lb.addEventListener('click', () => lb.classList.remove('open'));
-    document.addEventListener('keydown', e => {
-      if (e.key === 'Escape') lb.classList.remove('open');
-    });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') lb.classList.remove('open'); });
   })();
 
-  /* ========== GITHUB ACTIVITY ========== */
   (() => {
     const USER = 'lunarshe11';
     const list = document.getElementById('actList');
@@ -474,15 +406,13 @@ document.addEventListener('DOMContentLoaded', () => {
     })();
   })();
 
-  /* ========== COMMAND PALETTE ========== */
   (() => {
     const overlay = document.getElementById('palette');
     const input   = document.getElementById('paletteInput');
     const ul      = document.getElementById('paletteList');
     const trigger = document.getElementById('cmdTrigger');
-
     const openURL = url => { close(); if (url && url !== '#') window.open(url, '_blank'); };
-
+    
     const ITEMS = [
       { label: 'home',      hint: 'tab', act: () => { close(); swapTo('home'); } },
       { label: 'projects',  hint: 'tab', act: () => { close(); swapTo('projects'); } },
