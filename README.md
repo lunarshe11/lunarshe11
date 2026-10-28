@@ -20,16 +20,16 @@ quadrantChart
     quadrant-3 Legacy
     quadrant-4 Ideas
     lunarshe11: [0.9, 0.9]
-    a: [0.1, 0.88]
-    rpcd: [0.1, 0.7]
-    dotfiles: [0.1, 0.62]
-    ...: [0.1, 0.48]
+    a: [0.1, 0.87]
+    rpcd: [0.1, 0.68]
+    dotfiles: [0.1, 0.6]
+    ...: [0.1, 0.47]
     keenui: [0.1, 0.38]
 ```
 
 ```mermaid
 pie title Event Distribution
-    "push" : 56
+    "push" : 55
     "issues" : 4
     "create" : 4
     "star" : 1
@@ -40,8 +40,8 @@ pie title Event Distribution
 xychart-beta
     title "Events by Type"
     x-axis ["push", "star", "issues", "create", "pr", "fork"]
-    y-axis "Count" 0 --> 56
-    bar [56, 1, 4, 4, 1, 1]
+    y-axis "Count" 0 --> 55
+    bar [55, 1, 4, 4, 1, 1]
 ```
 
 ```text
