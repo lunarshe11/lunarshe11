@@ -20,7 +20,7 @@ quadrantChart
     quadrant-3 Legacy
     quadrant-4 Ideas
     lunarshe11: [0.9, 0.9]
-    a: [0.1, 0.83]
+    a: [0.1, 0.82]
     rpcd: [0.1, 0.63]
     dotfiles: [0.1, 0.55]
     ...: [0.1, 0.42]
