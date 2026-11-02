@@ -20,34 +20,32 @@ quadrantChart
     quadrant-3 Legacy
     quadrant-4 Ideas
     lunarshe11: [0.9, 0.9]
-    a: [0.1, 0.8]
-    rpcd: [0.1, 0.62]
-    dotfiles: [0.1, 0.53]
-    ...: [0.1, 0.4]
-    keenui: [0.1, 0.32]
+    a: [0.1, 0.78]
+    rpcd: [0.1, 0.6]
+    dotfiles: [0.1, 0.52]
+    ...: [0.1, 0.38]
+    keenui: [0.1, 0.3]
 ```
 
 ```mermaid
 pie title Event Distribution
-    "star" : 1
     "push" : 1
-    "issues" : 1
+    "star" : 1
 ```
 
 ```mermaid
 xychart-beta
     title "Events by Type"
-    x-axis ["star", "push", "issues"]
+    x-axis ["push", "star"]
     y-axis "Count" 0 --> 1
-    bar [1, 1, 1]
+    bar [1, 1]
 ```
 
 ```text
 lunarshe11@github
 -----------------------
+push > repo: lunarshe11 (2026-10-31 06:05)
 star > repo: PS5-14.10-Jailbreak-Research (2026-11-01 04:22)
-push > repo: lunarshe11 (2026-10-30 06:05)
-issues > repo: PS5-14.10-Research (2026-10-31 15:28)
 -----------------------
 ```
 <!-- ACTIVITY_END -->
