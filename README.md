@@ -20,11 +20,11 @@ quadrantChart
     quadrant-3 Legacy
     quadrant-4 Ideas
     lunarshe11: [0.9, 0.9]
-    a: [0.1, 0.75]
-    rpcd: [0.1, 0.57]
-    dotfiles: [0.1, 0.48]
-    ...: [0.1, 0.35]
-    keenui: [0.1, 0.27]
+    a: [0.1, 0.73]
+    rpcd: [0.1, 0.55]
+    dotfiles: [0.1, 0.47]
+    ...: [0.1, 0.33]
+    keenui: [0.1, 0.25]
 ```
 
 ```mermaid
