@@ -39,20 +39,21 @@ gantt
         lunarshe11 :2026-11-11 14:30, 1h
     section commits
         lunarshe11 :2026-11-13 06:05, 1h
+        lunarshe11 :2026-11-16 06:05, 1h
 ```
 
 ```mermaid
 xychart-beta
     title "activity (last 14 days)"
-    x-axis ["11-01", "11-02", "11-03", "11-04", "11-05", "11-06", "11-07", "11-08", "11-09", "11-11", "11-13"]
-    y-axis "events" 0 --> 48
-    line [1, 46, 28, 9, 1, 3, 1, 1, 5, 4, 1]
+    x-axis ["11-01", "11-02", "11-03", "11-04", "11-05", "11-06", "11-07", "11-08", "11-09", "11-11", "11-13", "11-16"]
+    y-axis "events" 0 --> 47
+    line [1, 45, 28, 9, 1, 3, 1, 1, 5, 4, 1, 1]
 ```
 
 ```mermaid
 pie title event breakdown
-    "issuecomment" : 79
-    "push" : 14
+    "issuecomment" : 78
+    "push" : 15
     "watch" : 2
     "delete" : 2
     "create" : 2
@@ -62,6 +63,7 @@ pie title event breakdown
 ```text
 lunarshe11@github
 -----------------------
+push > repo: lunarshe11 (2026-11-16 06:05)
 push > repo: lunarshe11 (2026-11-13 06:05)
 push > repo: lunarshe11 (2026-11-11 14:42)
 push > repo: lunarshe11 (2026-11-11 13:37)
@@ -71,7 +73,6 @@ delete > repo: lunarshe11 (2026-11-09 14:07)
 push > repo: lunarshe11 (2026-11-09 13:35)
 push > repo: lunarshe11 (2026-11-09 16:58)
 delete > repo: lunarshe11 (2026-11-09 13:36)
-push > repo: lunarshe11 (2026-11-09 13:33)
 -----------------------
 ```
 <!-- activity_end -->
