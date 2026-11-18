@@ -49,13 +49,13 @@ xychart-beta
     title "activity (last 14 days)"
     x-axis ["11-01", "11-02", "11-03", "11-04", "11-05", "11-06", "11-07", "11-08", "11-09", "11-11", "11-13", "11-16", "11-17"]
     y-axis "events" 0 --> 46
-    line [1, 44, 28, 9, 1, 3, 1, 1, 5, 4, 1, 1, 10]
+    line [1, 44, 28, 9, 1, 3, 1, 1, 5, 4, 1, 1, 13]
 ```
 
 ```mermaid
 pie title event breakdown
     "issuecomment" : 77
-    "push" : 26
+    "push" : 29
     "watch" : 2
     "delete" : 2
     "create" : 2
@@ -65,6 +65,11 @@ pie title event breakdown
 ```text
 lunarshe11@github
 -----------------------
+push > repo: lunarshe11
+push > repo: lunarshe11
+push > repo: lunarshe11
+push > repo: lunarshe11
+push > repo: lunarshe11
 push > repo: ps-1423 (2026-11-17 10:50)
 push > repo: ps-1423 (2026-11-17 10:49)
 push > repo: ps-1423 (2026-11-17 10:48)
