@@ -35,13 +35,13 @@ gantt
         lunarshe11 :2026-11-08 06:05, 1h
         lunarshe11 x3 :2026-11-09 13:33, 3h
         lunarshe11 x3 :2026-11-11 13:37, 3h
-        ps-1423 x5 :2026-11-18 10:39, 1h
     section stars
         lunarshe11 :2026-11-11 14:30, 1h
     section commits
         lunarshe11 :2026-11-13 06:05, 1h
         lunarshe11 :2026-11-16 06:05, 1h
         lunarshe11 :2026-11-17 06:05, 1h
+        ps-1423 x5 :2026-11-18 10:39, 1h
 ```
 
 ```mermaid
