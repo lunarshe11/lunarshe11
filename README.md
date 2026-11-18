@@ -41,7 +41,6 @@ gantt
         lunarshe11 :2026-11-13 06:05, 1h
         lunarshe11 :2026-11-16 06:05, 1h
         lunarshe11 :2026-11-17 06:05, 1h
-        ps-1423 x5 :2026-11-18 10:39, 1h
 ```
 
 ```mermaid
@@ -49,13 +48,13 @@ xychart-beta
     title "activity (last 14 days)"
     x-axis ["11-01", "11-02", "11-03", "11-04", "11-05", "11-06", "11-07", "11-08", "11-09", "11-11", "11-13", "11-16", "11-17"]
     y-axis "events" 0 --> 46
-    line [1, 44, 28, 9, 1, 3, 1, 1, 5, 4, 1, 1, 13]
+    line [1, 44, 28, 9, 1, 3, 1, 1, 5, 4, 1, 1, 1]
 ```
 
 ```mermaid
 pie title event breakdown
     "issuecomment" : 77
-    "push" : 29
+    "push" : 16
     "watch" : 2
     "delete" : 2
     "create" : 2
@@ -65,18 +64,6 @@ pie title event breakdown
 ```text
 lunarshe11@github
 -----------------------
-push > repo: lunarshe11
-push > repo: lunarshe11
-push > repo: lunarshe11
-push > repo: lunarshe11
-push > repo: lunarshe11
-push > repo: ps-1423 (2026-11-17 10:50)
-push > repo: ps-1423 (2026-11-17 10:49)
-push > repo: ps-1423 (2026-11-17 10:48)
-push > repo: ps-1423 (2026-11-17 10:46)
-push > repo: ps-1423 (2026-11-17 10:45)
-create > ps-1423 (2026-11-17 10:34)
-create > moonshell (2026-11-17 10:28)
 push > repo: lunarshe11 (2026-11-17 06:05)
 push > repo: lunarshe11 (2026-11-16 06:05)
 push > repo: lunarshe11 (2026-11-13 06:05)
